@@ -67,15 +67,9 @@ public class TowerCtrl : MonoBehaviour
             state = State.ATTACK;
             //anim.SetBool("isAttack", true);
             towerTr.LookAt(target);
-            Debug.DrawRay(transform.position, transform.forward * lineSize, Color.green);
+            StartCoroutine(coFire());
             // 가장 광선과 가까운 1개의 오브젝트만 감지한다. 물체에 닿으면 true를 반환
-            if (Physics.Raycast(transform.position, transform.forward, out hit, lineSize))
-            {
-                if (hit.collider.tag.Equals("MONSTER"))
-                {
-                    StartCoroutine(coFire());
-                }
-            }
+
         }
         else
         {
@@ -94,7 +88,14 @@ public class TowerCtrl : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
         // 닿은 물체의 이름을 출력
         //Debug.Log(hit.collider.gameObject.name);
-        hit.transform.GetComponent<EnemyCtrl>()?.OnDamage(hit.point, hit.normal);
+        Debug.DrawRay(transform.position, transform.forward * lineSize, Color.green);
+        if (Physics.Raycast(transform.position, transform.forward, out hit, lineSize))
+        {
+            if (hit.collider.tag.Equals("MONSTER"))
+            {
+                hit.transform.GetComponent<EnemyCtrl>().GetDamage();
+            }
+        }
     }
 
     IEnumerator stateAction()

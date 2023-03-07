@@ -1276,6 +1276,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1795267917327677697, guid: 547e9cd8e7d844fd585d780ac35c671b, type: 3}
+      propertyPath: Round
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1795267917327677697, guid: 547e9cd8e7d844fd585d780ac35c671b, type: 3}
+      propertyPath: spawnTime
+      value: 3.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1795267917327677820, guid: 547e9cd8e7d844fd585d780ac35c671b, type: 3}
       propertyPath: m_Name
       value: MonsterManager
@@ -1324,7 +1332,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1795267917327677823, guid: 547e9cd8e7d844fd585d780ac35c671b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 547e9cd8e7d844fd585d780ac35c671b, type: 3}
 --- !u!1001 &1691943606
 PrefabInstance:
