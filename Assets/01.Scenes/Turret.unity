@@ -1286,12 +1286,15 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1795267917327677697, guid: 547e9cd8e7d844fd585d780ac35c671b, type: 3}
+
       propertyPath: Round
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1795267917327677697, guid: 547e9cd8e7d844fd585d780ac35c671b, type: 3}
       propertyPath: spawnTime
       value: 3.5
+      propertyPath: spawnTime
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1795267917327677820, guid: 547e9cd8e7d844fd585d780ac35c671b, type: 3}
       propertyPath: m_Name

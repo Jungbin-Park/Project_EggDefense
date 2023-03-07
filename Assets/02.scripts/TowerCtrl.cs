@@ -81,6 +81,17 @@ public class TowerCtrl : MonoBehaviour
         {
             isGame = false;
         }
+<<<<<<< Updated upstream
+=======
+        else
+        {
+            state = State.IDLE;
+        }
+        if (arrEnemy == null)
+        {
+            isGame = false;
+        }
+>>>>>>> Stashed changes
         yield return null;
     }
 
