@@ -260,8 +260,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
+  fireEffect: {fileID: 0}
   attackDist: 30
   lineSize: 30
+  isGame: 1
   particle: {fileID: 0}
 --- !u!1001 &170578736
 PrefabInstance:
@@ -343,8 +345,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
+  fireEffect: {fileID: 0}
   attackDist: 30
   lineSize: 30
+  isGame: 1
   particle: {fileID: 0}
 --- !u!1 &377993209 stripped
 GameObject:
@@ -369,8 +373,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
+  fireEffect: {fileID: 0}
   attackDist: 30
   lineSize: 30
+  isGame: 1
   particle: {fileID: 0}
 --- !u!1001 &425490354
 PrefabInstance:
@@ -452,8 +458,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
+  fireEffect: {fileID: 0}
   attackDist: 30
   lineSize: 30
+  isGame: 1
   particle: {fileID: 0}
 --- !u!1 &566497884 stripped
 GameObject:
@@ -478,8 +486,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
+  fireEffect: {fileID: 0}
   attackDist: 30
   lineSize: 30
+  isGame: 1
   particle: {fileID: 0}
 --- !u!1 &705507993
 GameObject:
@@ -655,8 +665,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
+  fireEffect: {fileID: 0}
   attackDist: 30
   lineSize: 30
+  isGame: 1
   particle: {fileID: 0}
 --- !u!1 &963194225
 GameObject:
@@ -765,8 +777,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
+  fireEffect: {fileID: 0}
   attackDist: 30
   lineSize: 30
+  isGame: 1
   particle: {fileID: 0}
 --- !u!1001 &970425429
 PrefabInstance:
@@ -1174,8 +1188,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
+  fireEffect: {fileID: 0}
   attackDist: 30
   lineSize: 30
+  isGame: 1
   particle: {fileID: 0}
 --- !u!1001 &1467778641
 PrefabInstance:
@@ -1257,8 +1273,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
+  fireEffect: {fileID: 0}
   attackDist: 30
   lineSize: 30
+  isGame: 1
   particle: {fileID: 0}
 --- !u!1001 &1649597463
 PrefabInstance:
@@ -1454,8 +1472,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
+  fireEffect: {fileID: 0}
   attackDist: 30
   lineSize: 30
+  isGame: 1
   particle: {fileID: 0}
 --- !u!1 &1841685074 stripped
 GameObject:
@@ -1480,8 +1500,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
+  fireEffect: {fileID: 0}
   attackDist: 30
   lineSize: 30
+  isGame: 1
   particle: {fileID: 0}
 --- !u!1 &1858759937 stripped
 GameObject:
@@ -1506,8 +1528,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
+  fireEffect: {fileID: 0}
   attackDist: 30
   lineSize: 30
+  isGame: 1
   particle: {fileID: 0}
 --- !u!1 &1860061356
 GameObject:
@@ -1578,8 +1602,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
+  fireEffect: {fileID: 0}
   attackDist: 30
   lineSize: 30
+  isGame: 1
   particle: {fileID: 0}
 --- !u!1001 &2013832726
 PrefabInstance:
@@ -1661,8 +1687,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
+  fireEffect: {fileID: 0}
   attackDist: 30
   lineSize: 30
+  isGame: 1
   particle: {fileID: 0}
 --- !u!1001 &2110160814
 PrefabInstance:
@@ -1744,6 +1772,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
+  fireEffect: {fileID: 0}
   attackDist: 30
   lineSize: 30
+  isGame: 1
   particle: {fileID: 0}

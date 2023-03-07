@@ -17,6 +17,7 @@ public class TowerCtrl : MonoBehaviour
     private Transform towerTr;
     private Transform target;
 
+    public GameObject fireEffect;
     public float attackDist = 30f;
     public float lineSize = 30f;
     public bool isGame = true;
@@ -27,6 +28,7 @@ public class TowerCtrl : MonoBehaviour
     {
         towerTr = GetComponent<Transform>();
         anim = GetComponent<Animator>();
+        fireEffect = Resources.Load<GameObject>("PlasmaExplosionEffect");
     }
     private void Update()
     {
@@ -73,6 +75,7 @@ public class TowerCtrl : MonoBehaviour
             {
                 if (hit.collider.tag.Equals("MONSTER"))
                 {
+                    ShowFireEffect(hit.point, hit.transform.rotation);
                     StartCoroutine(coFire());
                 }
             }
@@ -111,6 +114,13 @@ public class TowerCtrl : MonoBehaviour
         }
         yield return null;
     }
+
+    void ShowFireEffect(Vector3 pos, Quaternion rot)
+    {
+        GameObject fire = Instantiate<GameObject>(fireEffect, pos, rot, hit.transform);
+        Destroy(fire, 1.0f);
+    }
+
 
     private void OnDrawGizmos()
     {
