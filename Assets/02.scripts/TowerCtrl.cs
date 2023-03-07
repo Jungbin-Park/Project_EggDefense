@@ -14,37 +14,39 @@ public class TowerCtrl : MonoBehaviour
     public State state = State.IDLE;
 
     private Animator anim;
-    private Transform enemyTr;
     private Transform towerTr;
     private Transform target;
 
+    public GameObject fireEffect;
     public float attackDist = 30f;
     public float lineSize = 30f;
+    public bool isGame = true;
     public Object particle;
 
     RaycastHit hit;
-
     void Start()
     {
-        //enemyTr = GameObject.FindGameObjectWithTag("MONSTER").GetComponent<Transform>();
-        GameObject[] arrEnemy = GameObject.FindGameObjectsWithTag("MONSTER");
         towerTr = GetComponent<Transform>();
-        anim.GetComponent<Animator>();
+        anim = GetComponent<Animator>();
+        fireEffect = Resources.Load<GameObject>("PlasmaExplosionEffect");
     }
-
-    void Update()
+    private void Update()
     {
         StartCoroutine(UpdateTarget());
+        StartCoroutine(stateAction());
     }
-
     // 가장 가까운 적 감지
     IEnumerator UpdateTarget()
     {
+        // 감지된 몬스터 배열에 저장
         GameObject[] arrEnemy = GameObject.FindGameObjectsWithTag("MONSTER");
+        // 최소거리 = 무한대
         float shortestDistance = Mathf.Infinity;
+        // 가까운 적 게임오브젝트
         GameObject nearestEnemy = null;
         foreach (GameObject enemy in arrEnemy)
         {
+            // 적과 포탑의 거리
             float distanceToEnemy = Vector3.Distance(transform.position, enemy.transform.position);
             if (distanceToEnemy < shortestDistance)
             {
@@ -52,7 +54,7 @@ public class TowerCtrl : MonoBehaviour
                 nearestEnemy = enemy;
             }
         }
-
+        // 공격 사정거리 안에 있으면 타겟 설정
         if (nearestEnemy != null && shortestDistance <= attackDist)
         {
             target = nearestEnemy.transform;
@@ -62,20 +64,22 @@ public class TowerCtrl : MonoBehaviour
             target = null;
         }
 
-        if(nearestEnemy != null)
+        if (target != null)
         {
+            state = State.ATTACK;
+            //anim.SetBool("isAttack", true);
             towerTr.LookAt(target);
-            Debug.DrawRay(transform.position, transform.forward * lineSize, Color.green);
+            StartCoroutine(coFire());
+            // 가장 광선과 가까운 1개의 오브젝트만 감지한다. 물체에 닿으면 true를 반환
+        }
+        else
+        {
+            state = State.IDLE;
+        }
 
-            // 가장 광선과 가까운 1개의 오브젝트만 감지한다.
-            // 물체에 닿으면 true를 반환
-            if (Physics.Raycast(transform.position, transform.forward, out hit, lineSize))
-            {
-                if (hit.collider.tag.Equals("MONSTER"))
-                {
-                    doShot();
-                }
-            }
+        if (arrEnemy == null)
+        {
+            isGame = false;
         }
 <<<<<<< Updated upstream
 =======
@@ -91,22 +95,55 @@ public class TowerCtrl : MonoBehaviour
         yield return null;
     }
 
-    private void doShot()
-    {
-        StartCoroutine(coShot());
-    }
-
-    IEnumerator coShot()
+    IEnumerator coFire()
     {
         yield return new WaitForSeconds(1.0f);
         // 닿은 물체의 이름을 출력
         //Debug.Log(hit.collider.gameObject.name);
-        hit.transform.GetComponent<EnemyCtrl>()?.OnDamage(hit.point, hit.normal);
+        Debug.DrawRay(transform.position, transform.forward * lineSize, Color.green);
+        if (Physics.Raycast(transform.position, transform.forward, out hit, lineSize))
+        {
+            if (hit.collider.tag.Equals("MONSTER"))
+            {
+                hit.transform.GetComponent<EnemyCtrl>().GetDamage();
+            }
+        }
     }
+
+    IEnumerator stateAction()
+    {
+        switch (state)
+        {
+            case State.IDLE:
+                anim.SetBool("isAttack", false);
+                break;
+            case State.ATTACK:
+                Debug.Log("isAttack True!");
+                anim.SetBool("isAttack", true);
+                break;
+        }
+        yield return null;
+    }
+
+    void ShowFireEffect(Vector3 pos, Quaternion rot)
+    {
+        GameObject fire = Instantiate<GameObject>(fireEffect, pos, rot, hit.transform);
+        Destroy(fire, 1.0f);
+    }
+
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, attackDist);
+        if(state == State.IDLE)
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.position, attackDist);
+        }
+        if(state == State.ATTACK)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, attackDist);
+        }
+        
     }
 }

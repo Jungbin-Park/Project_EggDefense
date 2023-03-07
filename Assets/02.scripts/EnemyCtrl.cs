@@ -43,12 +43,26 @@ public class EnemyCtrl : MonoBehaviour
 
     public void OnDamage(Vector3 pos, Vector3 normal)
     {
+
         currHp -= 10;
         Debug.Log("HP : " + currHp);
-        if(currHp <= 0)
+        if (currHp <= 0)
         {
             Debug.Log("Die");
             Destroy(this);
         }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.tag == "MONSTER")
+        {
+            currHp -= 10;
+
+        }
+    }
+    public void GetDamage()
+    {
+        currHp -= 10;
     }
 }

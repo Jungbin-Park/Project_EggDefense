@@ -97,7 +97,7 @@ public class SpawnMonster : MonoBehaviour
                 if (isSpawnMonster)
                 {
                     Vector3 pos = transform.position;
-                    Object monsterObj = bm[Random.Range(0, nm.Count)];
+                    Object monsterObj = bm[Random.Range(0, bm.Count)];
                     GameObject Monster = (GameObject)Instantiate(monsterObj, pos, Quaternion.identity);
                     Monster.tag = "MONSTER";
                 }
