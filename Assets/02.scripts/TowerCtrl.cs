@@ -17,6 +17,7 @@ public class TowerCtrl : MonoBehaviour
     private Transform towerTr;
     private Transform target;
 
+    public GameObject fireEffect;
     public float attackDist = 30f;
     public float lineSize = 30f;
     public bool isGame = true;
@@ -27,6 +28,7 @@ public class TowerCtrl : MonoBehaviour
     {
         towerTr = GetComponent<Transform>();
         anim = GetComponent<Animator>();
+        fireEffect = Resources.Load<GameObject>("PlasmaExplosionEffect");
     }
     private void Update()
     {
@@ -69,7 +71,6 @@ public class TowerCtrl : MonoBehaviour
             towerTr.LookAt(target);
             StartCoroutine(coFire());
             // 가장 광선과 가까운 1개의 오브젝트만 감지한다. 물체에 닿으면 true를 반환
-
         }
         else
         {
@@ -112,6 +113,13 @@ public class TowerCtrl : MonoBehaviour
         }
         yield return null;
     }
+
+    void ShowFireEffect(Vector3 pos, Quaternion rot)
+    {
+        GameObject fire = Instantiate<GameObject>(fireEffect, pos, rot, hit.transform);
+        Destroy(fire, 1.0f);
+    }
+
 
     private void OnDrawGizmos()
     {
