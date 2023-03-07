@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1795267917327677820
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1795267917327677822}
+  - component: {fileID: 1795267917327677823}
+  - component: {fileID: 1795267917327677697}
+  m_Layer: 0
+  m_Name: MonsterManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1795267917327677822
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1795267917327677820}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -35, y: 0, z: 25}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1795267917327677823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1795267917327677820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b59fa1faa901cea478744ec4b195ed96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: {r: 1, g: 0.0982824, b: 0, a: 1}
+  radius: 0.5
+--- !u!114 &1795267917327677697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1795267917327677820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a40ffd27199d304bbc88a9125f2e115, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MonsterObj:
+  - {fileID: 7388115791694189696, guid: b4b61345b39b7334590998e20a1bcbe5, type: 3}
+  - {fileID: 2605992607576830525, guid: 1ee1d90b28d476f4b931940b5e7b54c0, type: 3}
+  - {fileID: 6793045220233377991, guid: a3f1c87776d6d1a43b94e1251181f4ea, type: 3}
+  - {fileID: 6601428625748599126, guid: 209891b131b869440878f2d6c4f723a1, type: 3}
+  - {fileID: 7829402855640274828, guid: fe044656de3d07045b28ecdd50ee5cf5, type: 3}
+  - {fileID: 4257821849217903820, guid: a97190d66e848a04a941a3ea3c59ccdb, type: 3}
+  - {fileID: 2732279461039946778, guid: 10d6b90ad7a48bb49bb49a7b4dfb837f, type: 3}
+  - {fileID: 2126423685375525905, guid: 034a380233656484c830ac121966f1c1, type: 3}
+  - {fileID: 238383621755690670, guid: 260c3435fb5fbbf48a004c8064715409, type: 3}
+  - {fileID: 5223570894975708857, guid: f62a2ff9abd07e54584932be0005c79a, type: 3}
+  - {fileID: 969348198370347337, guid: 5be894401852a7d40960908b2b0495c6, type: 3}
+  - {fileID: 5891525205032141368, guid: b5922f93bf967ef488262366c81a21e5, type: 3}
+  spawnTime: 2
+  intervalCheckMonsterNum: 1
+  MaxMonsterNum: 20
+  MonsterCount: 0
+  BossNum: 1
+  Round: 1
+  MaxRound: 5
+  accTime: 30
