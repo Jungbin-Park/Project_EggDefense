@@ -8,27 +8,27 @@ public class SpawnMonster : MonoBehaviour
     List<GameObject> nm = new List<GameObject>();
     List<GameObject> hm = new List<GameObject>();
     List<GameObject> bm = new List<GameObject>();
-
-    
+    public int Round = Time_manager.Round;
+    public static int MaxRound = 5;
     public Object[] MonsterObj;
     Object monsterObj;
 
     public float spawnTime = 2f;
-    public float intervalCheckMonsterNum = 1f;
-    public int MaxMonsterNum = 20;
-    public int MonsterCount = 0;
-    public int BossNum = 1;
-    public int Round = 1;
-    public int MaxRound = 5;
-    public float accTime = 30f;
+    public float intervalCheckMonsterNum = 1f;    
+    public static int MonsterCount = 0;
+    public static int MaxMonsterNum = 20;
+    public static int BossNum = 0;
+    public static int MaxBMonsterNum = 1;
     bool isSpawnMonster = true;
 
     void Start()
     {
-        MObj();
-        StartCoroutine(coSpawnMonster());
-        StartCoroutine(coCheckMonsterNum());
-        StartCoroutine(coRoundNum());
+        if (Time_manager.isGame)
+        {
+            MObj();
+            StartCoroutine(coSpawnMonster());
+            StartCoroutine(coCheckMonsterNum());
+        }
     }
 
     void MObj()
@@ -56,50 +56,62 @@ public class SpawnMonster : MonoBehaviour
     {
         while (true)
         {
-            if (Round != MaxRound && (Round % 2) == 0)
+            if (Round != MaxRound && (Round % 2) != 0)
             {
                 yield return new WaitForSeconds(spawnTime);
                 if (isSpawnMonster)
                 {
                     Vector3 pos = transform.position;
-                    MonsterCount++;
-                    if (MonsterCount != 10 && MonsterCount != 20)
+                    if (MonsterCount <= MaxMonsterNum)
                     {
-                        monsterObj = nm[Random.Range(0, nm.Count)];
+                        Object monsterObj = nm[Random.Range(0, nm.Count)];
                         GameObject Monster = (GameObject)Instantiate(monsterObj, pos, Quaternion.identity);
                         Monster.tag = "MONSTER";
+
                     }
-                    else
+                    MonsterCount++;
+                }
+            }
+            else if (Round != MaxRound && (Round % 2) == 0)
+            {
+                yield return new WaitForSeconds(spawnTime);
+                if (isSpawnMonster)
+                {
+                    Vector3 pos = transform.position;
+                    if (MonsterCount <= MaxMonsterNum)
                     {
-                        monsterObj = hm[Random.Range(0, hm.Count)];
-                        GameObject Monster = (GameObject)Instantiate(monsterObj, pos, Quaternion.identity);
-                        Monster.tag = "MONSTER";
+                        if (MonsterCount != 10 && MonsterCount != 20)
+                        {
+                            monsterObj = nm[Random.Range(0, nm.Count)];
+                            GameObject Monster = (GameObject)Instantiate(monsterObj, pos, Quaternion.identity);
+                            Monster.tag = "MONSTER";
+                        }
+                        else
+                        {
+                            monsterObj = hm[Random.Range(0, hm.Count)];
+                            GameObject Monster = (GameObject)Instantiate(monsterObj, pos, Quaternion.identity);
+                            Monster.tag = "MONSTER";
+                        }
+                        MonsterCount++;
                     }
                 }
             }
 
-            else if (Round != MaxRound && (Round % 2) != 0)
-            {
-                yield return new WaitForSeconds(spawnTime);
-                if (isSpawnMonster)
-                {
-                    Vector3 pos = transform.position;
-                    MonsterCount++;
-                    Object monsterObj = nm[Random.Range(0, nm.Count)];
-                    GameObject Monster = (GameObject)Instantiate(monsterObj, pos, Quaternion.identity);
-                    Monster.tag = "MONSTER";
-                }
-            }
+
 
             else if (Round == MaxRound)
             {
                 yield return new WaitForSeconds(spawnTime);
                 if (isSpawnMonster)
                 {
-                    Vector3 pos = transform.position;
-                    Object monsterObj = bm[Random.Range(0, bm.Count)];
-                    GameObject Monster = (GameObject)Instantiate(monsterObj, pos, Quaternion.identity);
-                    Monster.tag = "MONSTER";
+                    if (BossNum <= MaxBMonsterNum)
+                    {
+                        Vector3 pos = transform.position;
+                        Object monsterObj = bm[Random.Range(0, bm.Count)];
+                        GameObject Monster = (GameObject)Instantiate(monsterObj, pos, Quaternion.identity);
+                        Monster.tag = "MONSTER";
+                    }
+                    BossNum++;
                 }
             }
         }
@@ -119,16 +131,13 @@ public class SpawnMonster : MonoBehaviour
         }
         else if (Round == MaxRound)
         {
-            isSpawnMonster = false;
+            while (true)
+            {
+                yield return new WaitForSeconds(intervalCheckMonsterNum);
+                if (BossNum == MaxBMonsterNum)
+                    isSpawnMonster = false;
+            }
         }
 
-    }
-
-    IEnumerator coRoundNum()
-    {
-        if (MonsterCount == 0 && accTime == 0f)
-            Round++;
-        isSpawnMonster = true;
-        yield return null;
     }
 }

@@ -25,11 +25,21 @@ public class EnemyCtrl : MonoBehaviour
         anim = GetComponent<Animator>();
         currHp = initHp;
         SetHpBar();
+
+        if (Time_manager.isGame)
+        {
+            dirx = Vector3.forward;
+            anim = GetComponent<Animator>();
+            currHp = initHp;
+        }
     }
 
     void Update()
     {
-        StartCoroutine(monsterMove());
+        if (Time_manager.isGame)
+        {
+            StartCoroutine(monsterMove());
+        }            
     }
 
     void SetHpBar()
