@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyCtrl : MonoBehaviour
 {
@@ -9,14 +10,21 @@ public class EnemyCtrl : MonoBehaviour
     Vector3 dirx;
     Animator anim;
 
-    public int initHp = 100;
-    private int currHp;
+    public float initHp = 100f;
+    private float currHp;
+
+    public GameObject hpBarPrefab;
+    public Vector3 hpBarOffset = new Vector3(0f, 10f, 0f);
+
+    private Canvas uiCanvas;
+    private Image hpBarImage;
 
     void Start()
     {
         dirx = Vector3.forward;
         anim = GetComponent<Animator>();
         currHp = initHp;
+        SetHpBar();
     }
 
     void Update()
@@ -24,19 +32,32 @@ public class EnemyCtrl : MonoBehaviour
         StartCoroutine(monsterMove());
     }
 
+    void SetHpBar()
+    {
+        uiCanvas = GameObject.Find("UI Canvas").GetComponent<Canvas>();
+        GameObject hpBar = Instantiate<GameObject>(hpBarPrefab, uiCanvas.transform);
+        hpBarImage = hpBar.GetComponentsInChildren<Image>()[1];
+
+        var _hpBar = hpBar.GetComponent<EnemyHpBar>();
+        _hpBar.targetTr = this.gameObject.transform;
+        _hpBar.offset = hpBarOffset;
+    }
+
     public void GetDamage()
     {
         if (currHp > 0)
         {
-            currHp -= 5;
+            currHp -= 1;
+            hpBarImage.fillAmount = currHp / initHp;
             Debug.Log("HP : " + currHp);
             StartCoroutine(damageAnim());
         }
 
 
-        if (currHp == 0)
+        if (currHp <= 0)
         {
             StartCoroutine(dieAnim());
+            hpBarImage.GetComponentsInParent<Image>()[1].color = Color.clear;
         }
     }
 

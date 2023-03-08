@@ -6,36 +6,36 @@ using UnityEngine;
 
 public class Up_Manager : MonoBehaviour
 {
-    public float[] Fier = {1,2,3,4,5,6,7,8,9,10};    //ÆÄÀÌ¾îÅ¸¿ö¿¡ ·£´ıÇÑ ¼ö¸¦ ÁÙ °ª
-    public float Ice = 4;                            //¾ÆÀÌ½ºÅ¸¿ö¿¡ ·£´ıÇÑ ¼ö¸¦ ÁÙ °ª
-    public float[] Lig= {3,4,5,6,7};                 //¶óÀÌÆ®´×Å¸¿ö¿¡ ·£´ıÇÑ ¼ö¸¦ ÁÙ °ª
+    public float[] Fier = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };    //íŒŒì´ì–´íƒ€ì›Œì— ëœë¤í•œ ìˆ˜ë¥¼ ì¤„ ê°’
+    public float Ice = 4;                            //ì•„ì´ìŠ¤íƒ€ì›Œì— ëœë¤í•œ ìˆ˜ë¥¼ ì¤„ ê°’
+    public float[] Lig = { 3, 4, 5, 6, 7 };                 //ë¼ì´íŠ¸ë‹íƒ€ì›Œì— ëœë¤í•œ ìˆ˜ë¥¼ ì¤„ ê°’
 
-      float FierHiroAttatc = 5;          //ºÒÅ¸¿ö °ø°İ·Â
-      float IceHiroAttatc = 5;           //¾óÀ½Å¸¿ö °ø°İ·Â
-      float LigHiroAttatc = 5;           //¹ø°³Å¸¿ö °ø°İ·Â
+    float FierHiroAttatc = 5;          //ë¶ˆíƒ€ì›Œ ê³µê²©ë ¥
+    float IceHiroAttatc = 5;           //ì–¼ìŒíƒ€ì›Œ ê³µê²©ë ¥
+    float LigHiroAttatc = 5;           //ë²ˆê°œíƒ€ì›Œ ê³µê²©ë ¥
 
-    //½ºÅÈºÎºĞ Ãß°¡ÇØ¾ßÇÔ
-   
+    //ìŠ¤íƒ¯ë¶€ë¶„ ì¶”ê°€í•´ì•¼í•¨
+
 
     void Start()
     {
-        
-        
+
+
     }
 
     void Update()
     {
-        
+
     }
     public void OnClickFier(int i)
     {
-        
-        Fier[i] = Random.Range(0,9);                                    //Fier¹è¿­°ª¿¡¼­ ·£´ıÀ¸·Î È£Ãâ
-         
-         GameObject fierhiro = GameObject.FindWithTag("FierHiro");      //ÅÂ±× °Ë»ö
-         FierHiroAttatc += Fier[i];                                     //Ã£Àº ÅÂ±×ÀÇ °ø°İ·Â(ÇÊµå°ª) + ¹è¿­ÀÇ °ª
-        
-        Debug.Log($"fier Up = {FierHiroAttatc}");                       //°ø°İ·Â Áõ°¡µÇ´ÂÁö È®ÀÎ
+
+        Fier[i] = Random.Range(0, 9);                                    //Fierë°°ì—´ê°’ì—ì„œ ëœë¤ìœ¼ë¡œ í˜¸ì¶œ
+
+        GameObject fierhiro = GameObject.FindWithTag("FierHiro");      //íƒœê·¸ ê²€ìƒ‰
+        FierHiroAttatc += Fier[i];                                     //ì°¾ì€ íƒœê·¸ì˜ ê³µê²©ë ¥(í•„ë“œê°’) + ë°°ì—´ì˜ ê°’
+
+        Debug.Log($"fier Up = {FierHiroAttatc}");                       //ê³µê²©ë ¥ ì¦ê°€ë˜ëŠ”ì§€ í™•ì¸
 
 
 
@@ -43,19 +43,19 @@ public class Up_Manager : MonoBehaviour
     public void OnClickIce()
     {
 
-         GameObject Icehiro = GameObject.FindWithTag("IceHiro");      //ÅÂ±× °Ë»ö
-         IceHiroAttatc += Ice;                                        //Ã£Àº ÅÂ±×ÀÇ °ø°İ·Â(ÇÊµå°ª) + ÀÎÆ®ÀÇ °ª
+        GameObject Icehiro = GameObject.FindWithTag("IceHiro");      //íƒœê·¸ ê²€ìƒ‰
+        IceHiroAttatc += Ice;                                        //ì°¾ì€ íƒœê·¸ì˜ ê³µê²©ë ¥(í•„ë“œê°’) + ì¸íŠ¸ì˜ ê°’
 
-        Debug.Log($"ice up = {IceHiroAttatc}");                       //°ø°İ·Â Áõ°¡µÇ´ÂÁö È®ÀÎ
+        Debug.Log($"ice up = {IceHiroAttatc}");                       //ê³µê²©ë ¥ ì¦ê°€ë˜ëŠ”ì§€ í™•ì¸
     }
     public void OnClickLig(int i)
     {
-         Lig[i] = Random.Range(0, 4);                                    //Lig¹è¿­°ª¿¡¼­ ·£´ıÀ¸·Î È£Ãâ
+        Lig[i] = Random.Range(0, 4);                                    //Ligë°°ì—´ê°’ì—ì„œ ëœë¤ìœ¼ë¡œ í˜¸ì¶œ
 
-         GameObject Lighiro = GameObject.FindWithTag("LigHiro");      //ÅÂ±× °Ë»ö
-         LigHiroAttatc += Lig[i];                                     //Ã£Àº ÅÂ±×ÀÇ °ø°İ·Â(ÇÊµå°ª) + ¹è¿­ÀÇ °ª
+        GameObject Lighiro = GameObject.FindWithTag("LigHiro");      //íƒœê·¸ ê²€ìƒ‰
+        LigHiroAttatc += Lig[i];                                     //ì°¾ì€ íƒœê·¸ì˜ ê³µê²©ë ¥(í•„ë“œê°’) + ë°°ì—´ì˜ ê°’
 
-        Debug.Log($"lig up = {LigHiroAttatc}");                       //°ø°İ·Â Áõ°¡µÇ´ÂÁö È®ÀÎ
+        Debug.Log($"lig up = {LigHiroAttatc}");                       //ê³µê²©ë ¥ ì¦ê°€ë˜ëŠ”ì§€ í™•ì¸
     }
 
 

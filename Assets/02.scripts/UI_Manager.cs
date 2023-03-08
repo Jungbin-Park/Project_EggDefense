@@ -12,6 +12,7 @@ public class UI_Manager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
     }
 
     // Update is called once per frame
@@ -19,28 +20,28 @@ public class UI_Manager : MonoBehaviour
     {
 
     }
-    //°ÔÀÓÀ¸·Î ÁøÀÔ
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public void OnClickStart(string str)
     {
         Debug.Log("Going Start");
         SceneManager.LoadScene("TEST_INGAME");
     }
-    //ÇïÇÁ·Î ÁøÀÔ
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public void OnClickHelp(string str)
     {
         Debug.Log("Going HELP");
         SceneManager.LoadScene("HELP");
     }
-    //°ÔÀÓÁ¾·á
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     public void Exit()
     {
-        Debug.Log("Á¾·á");
+        Debug.Log("ï¿½ï¿½ï¿½ï¿½");
         Application.Quit();
     }
-    //µÚ·Î°¡±â
+    //ï¿½Ú·Î°ï¿½ï¿½ï¿½
     public void OnClickBack(string str)
     {
-        Debug.Log("µÚ·Î°¡±â");
+        Debug.Log("ï¿½Ú·Î°ï¿½ï¿½ï¿½");
         SceneManager.LoadScene("TITEL");
     }
 

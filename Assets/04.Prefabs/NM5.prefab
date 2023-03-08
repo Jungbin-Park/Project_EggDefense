@@ -310,6 +310,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 20
+  initHp: 100
+  hpBarPrefab: {fileID: 2002037861939477851, guid: df1f749e26bdd4a1594637a112eb47c3, type: 3}
+  hpBarOffset: {x: 0, y: 7, z: 0}
 --- !u!95 &7023339202267837723
 Animator:
   serializedVersion: 5
