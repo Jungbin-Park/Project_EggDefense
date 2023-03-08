@@ -14,14 +14,21 @@ public class EnemyCtrl : MonoBehaviour
 
     void Start()
     {
-        dirx = Vector3.forward;
-        anim = GetComponent<Animator>();
-        currHp = initHp;
+        if (Time_manager.isGame)
+        {
+            dirx = Vector3.forward;
+            anim = GetComponent<Animator>();
+            currHp = initHp;
+        }
+            
     }
 
     void Update()
     {
-        StartCoroutine(monsterMove());
+        if (Time_manager.isGame)
+        {
+            StartCoroutine(monsterMove());
+        }            
     }
 
     public void GetDamage()

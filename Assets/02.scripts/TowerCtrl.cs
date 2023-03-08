@@ -26,14 +26,20 @@ public class TowerCtrl : MonoBehaviour
     RaycastHit hit;
     void Start()
     {
-        towerTr = GetComponent<Transform>();
-        anim = GetComponent<Animator>();
-        fireEffect = Resources.Load<GameObject>("PlasmaExplosionEffect");
+        if (Time_manager.isGame)
+        {
+            towerTr = GetComponent<Transform>();
+            anim = GetComponent<Animator>();
+            fireEffect = Resources.Load<GameObject>("PlasmaExplosionEffect");
+        }            
     }
     private void Update()
     {
-        StartCoroutine(UpdateTarget());
-        StartCoroutine(stateAction());
+        if (Time_manager.isGame)
+        {
+            StartCoroutine(UpdateTarget());
+            StartCoroutine(stateAction());
+        }            
     }
     // 가장 가까운 적 감지
     IEnumerator UpdateTarget()
@@ -85,7 +91,7 @@ public class TowerCtrl : MonoBehaviour
         if (Physics.Raycast(transform.position, transform.forward, out hit, lineSize))
         {
             if (hit.collider.tag.Equals("MONSTER"))
-            {
+            {               
                 hit.transform.GetComponent<EnemyCtrl>().GetDamage();
                 ShowFireEffect(hit.point, hit.transform.rotation);
             }
