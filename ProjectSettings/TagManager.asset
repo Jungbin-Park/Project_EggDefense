@@ -10,6 +10,8 @@ TagManager:
   - HM
   - BM
   - MONSTER
+  - TOWER
+  - MAP
   layers:
   - Default
   - TransparentFX
@@ -17,7 +19,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - TERRAIN
   - 
   - 
   - 

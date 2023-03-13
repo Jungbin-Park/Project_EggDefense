@@ -10,42 +10,50 @@ public class EnemyCtrl : MonoBehaviour
     Vector3 dirx;
     Animator anim;
 
-    public float initHp = 100f;
-    private float currHp;
+    public float currHp;
+    public float initHp;
 
     public GameObject hpBarPrefab;
     public Vector3 hpBarOffset = new Vector3(0f, 10f, 0f);
+    GameObject hpBar;
 
     private Canvas uiCanvas;
     private Image hpBarImage;
+
+    private GameObject fireEffect;
+
+    public AudioClip hitSound;
+    public AudioClip dieSound;
+    private new AudioSource audio;
 
     void Start()
     {
         dirx = Vector3.forward;
         anim = GetComponent<Animator>();
-        currHp = initHp;
         SetHpBar();
 
-        if (Time_manager.isGame)
-        {
-            dirx = Vector3.forward;
-            anim = GetComponent<Animator>();
-            currHp = initHp;
-        }
+        audio = GetComponent<AudioSource>();
+        fireEffect = Resources.Load<GameObject>("HitEffect");
     }
 
     void Update()
     {
-        if (Time_manager.isGame)
+        if (Time_manager.LimitTime <= 0f && GameObject.FindGameObjectWithTag("MONSTER"))
+        {
+            Destroy(GameObject.FindGameObjectWithTag("MONSTER"));
+            Destroy(hpBar);
+        }
+
+        if (currHp > 0)
         {
             StartCoroutine(monsterMove());
-        }            
+        }
     }
 
     void SetHpBar()
     {
         uiCanvas = GameObject.Find("UI Canvas").GetComponent<Canvas>();
-        GameObject hpBar = Instantiate<GameObject>(hpBarPrefab, uiCanvas.transform);
+        hpBar = Instantiate<GameObject>(hpBarPrefab, uiCanvas.transform);
         hpBarImage = hpBar.GetComponentsInChildren<Image>()[1];
 
         var _hpBar = hpBar.GetComponent<EnemyHpBar>();
@@ -53,59 +61,76 @@ public class EnemyCtrl : MonoBehaviour
         _hpBar.offset = hpBarOffset;
     }
 
-    public void GetDamage()
+    public void GetDamage(float towerDmg)
     {
         if (currHp > 0)
         {
-            currHp -= 1;
-            hpBarImage.fillAmount = currHp / initHp;
-            Debug.Log("HP : " + currHp);
+            if (initHp == SpawnMonster.nmhp)
+            {
+                currHp -= towerDmg;
+                hpBarImage.fillAmount = currHp / SpawnMonster.nmhp;
+            }
+            else if (initHp == SpawnMonster.hmhp)
+            {
+                currHp -= towerDmg;
+                //Debug.Log("currHp : " + currHp);
+                hpBarImage.fillAmount = currHp / SpawnMonster.hmhp;
+            }
+            else if (initHp == SpawnMonster.bmhp)
+            {
+                currHp -= towerDmg;
+                hpBarImage.fillAmount = currHp / SpawnMonster.bmhp;
+            }
+            //Debug.Log("currHp : " + currHp);                                    
             StartCoroutine(damageAnim());
-        }
-
-
-        if (currHp <= 0)
-        {
-            StartCoroutine(dieAnim());
-            hpBarImage.GetComponentsInParent<Image>()[1].color = Color.clear;
+            ShowFireEffect(this.transform.position + (new Vector3(0, 4)), this.transform.rotation);
+            audio.PlayOneShot(hitSound, 0.2f);
         }
     }
 
     IEnumerator damageAnim()
     {
         RunDamage_moveAnimation(2);
-        yield return new WaitForSeconds(1.0f);
-        RunDamage_moveAnimation(1);
+        yield return new WaitForSeconds(0.5f);
+        if (currHp <= 0)
+        {
+            RunDamage_moveAnimation(3);
+            //hpBarImage.GetComponentsInParent<Image>()[1].color = Color.clear;
+        }
+        else
+        {
+            RunDamage_moveAnimation(1);
+        }
     }
 
-    IEnumerator dieAnim()
+    void ShowFireEffect(Vector3 pos, Quaternion rot)
     {
-        RunDamage_moveAnimation(3);
-        yield return null;
+        GameObject fire = Instantiate<GameObject>(fireEffect, pos, rot);
+        Destroy(fire, 1f);
     }
 
     IEnumerator monsterMove()
     {
         yield return null;
-        if (transform.position.x <= 35 && transform.position.z >= 25)  // �������̵�
+        if (transform.position.x <= 35 && transform.position.z >= 25)  //        ̵ 
         {
             this.transform.Translate(dirx * moveSpeed * Time.deltaTime);
             this.transform.eulerAngles = new Vector3(0f, 90f, 0f);
         }
         yield return null;
-        if (transform.position.x >= 35 && transform.position.z >= -25) // �Ʒ����̵�
+        if (transform.position.x >= 35 && transform.position.z >= -25) //  Ʒ    ̵ 
         {
             this.transform.Translate(dirx * moveSpeed * Time.deltaTime);
             this.transform.eulerAngles = new Vector3(0f, 180f, 0f);
         }
         yield return null;
-        if (transform.position.x >= -35 && transform.position.z <= -25)  // �����̵�
+        if (transform.position.x >= -35 && transform.position.z <= -25)  //      ̵ 
         {
             this.transform.Translate(dirx * moveSpeed * Time.deltaTime);
             this.transform.eulerAngles = new Vector3(0f, 270f, 0f);
         }
         yield return null;
-        if (transform.position.x <= -35 && transform.position.z <= 25)  // �����̵�
+        if (transform.position.x <= -35 && transform.position.z <= 25)  //      ̵ 
         {
             this.transform.Translate(dirx * moveSpeed * Time.deltaTime);
             this.transform.eulerAngles = new Vector3(0f, 360f, 0f);
@@ -119,15 +144,15 @@ public class EnemyCtrl : MonoBehaviour
         {
             case 1:
                 doMove();
-                Debug.Log("Animation - Move");
+                //Debug.Log("Animation - Move");
                 break;
             case 2:
                 doDamage();
-                Debug.Log("Animation - Damage");
+                //Debug.Log("Animation - Damage");
                 break;
             case 3:
                 doDie();
-                Debug.Log("Animation - Die");
+                //Debug.Log("Animation - Die");
                 break;
         }
     }
@@ -151,19 +176,20 @@ public class EnemyCtrl : MonoBehaviour
     IEnumerator coDamage()
     {
         anim.SetInteger("aniStep", 2);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
     }
 
     void doDie()
     {
+        audio.PlayOneShot(dieSound, 0.3f);
         StartCoroutine(coDie());
     }
 
     IEnumerator coDie()
     {
         anim.SetInteger("aniStep", 3);
-        yield return new WaitForSeconds(1f);
-        Destroy(this.gameObject);
-
+        yield return null;
+        Destroy(this.gameObject, 0.7f);
+        Destroy(hpBar);
     }
 }

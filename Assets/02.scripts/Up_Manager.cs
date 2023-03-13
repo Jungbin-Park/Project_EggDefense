@@ -3,59 +3,131 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class Up_Manager : MonoBehaviour
 {
-    public float[] Fier = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };    //파이어타워에 랜덤한 수를 줄 값
-    public float Ice = 4;                            //아이스타워에 랜덤한 수를 줄 값
-    public float[] Lig = { 3, 4, 5, 6, 7 };                 //라이트닝타워에 랜덤한 수를 줄 값
+    Button fireBtn;
+    Button iceBtn;
+    Button elecBtn;
+    Button bombBtn;
 
-    float FierHiroAttatc = 5;          //불타워 공격력
-    float IceHiroAttatc = 5;           //얼음타워 공격력
-    float LigHiroAttatc = 5;           //번개타워 공격력
+    GameObject canvas;
+
+    public Object FireUp;               //파이어 업그레이드 이펙트
+    public Object IceUp;                //아이스 업그레이드 이펙트
+    public Object ElecUp;                //라이트닝 업그레이드 이펙트
+
+    public AudioClip fireUpSound;
+    public AudioClip iceUpSound;
+    public AudioClip elecUpSound;
+    private AudioSource upAudio;
+
+
+    int fire;
+    int ice;
+    int elec;
+
 
     //스탯부분 추가해야함
 
-
     void Start()
     {
-
-
+        canvas = GameObject.Find("Canvas");
+        fireBtn = canvas.GetComponentsInChildren<Button>()[1];
+        iceBtn = canvas.GetComponentsInChildren<Button>()[2];
+        elecBtn = canvas.GetComponentsInChildren<Button>()[3];
+        bombBtn = canvas.GetComponentsInChildren<Button>()[4];
+        upAudio = GetComponent<AudioSource>();
     }
 
     void Update()
     {
+        if(Time_manager.stat <= 0)
+        {
+            fireBtn.interactable = false;
+            iceBtn.interactable = false;
+            elecBtn.interactable = false;
+        }
+        else
+        {
+            fireBtn.interactable = true;
+            iceBtn.interactable = true;
+            elecBtn.interactable = true;
+        }
 
+        if (Time_manager.bombPoint <= 0)
+            bombBtn.interactable = false;
+        else
+            bombBtn.interactable = true;
     }
-    public void OnClickFier(int i)
+    public void OnClickFire()
     {
-
-        Fier[i] = Random.Range(0, 9);                                    //Fier배열값에서 랜덤으로 호출
-
-        GameObject fierhiro = GameObject.FindWithTag("FierHiro");      //태그 검색
-        FierHiroAttatc += Fier[i];                                     //찾은 태그의 공격력(필드값) + 배열의 값
-
-        Debug.Log($"fier Up = {FierHiroAttatc}");                       //공격력 증가되는지 확인
-
-
-
+        upAudio.PlayOneShot(fireUpSound, 1.0f);
+        StartCoroutine(coFire());
     }
+    IEnumerator coFire()
+    {
+        Time_manager.stat--;
+        fire = Random.Range(1, 11);
+        TowerCtrl.damage += fire;
+        GameObject[] firehero = GameObject.FindGameObjectsWithTag("TOWER");
+        Debug.Log(TowerCtrl.damage);
+        foreach (var fhero in firehero)                                  
+        {
+            GameObject fiereff = (GameObject)Instantiate(FireUp,
+                                 fhero.transform.position + Vector3.up, fhero.transform.rotation);
+            Destroy(fiereff, 2f);
+            yield return null;
+        }
+        Debug.Log(TowerCtrl.damage);
+    }
+
+
     public void OnClickIce()
     {
-
-        GameObject Icehiro = GameObject.FindWithTag("IceHiro");      //태그 검색
-        IceHiroAttatc += Ice;                                        //찾은 태그의 공격력(필드값) + 인트의 값
-
-        Debug.Log($"ice up = {IceHiroAttatc}");                       //공격력 증가되는지 확인
+        upAudio.PlayOneShot(iceUpSound, 1.0f);
+        StartCoroutine(coIce());
     }
-    public void OnClickLig(int i)
+    IEnumerator coIce()
     {
-        Lig[i] = Random.Range(0, 4);                                    //Lig배열값에서 랜덤으로 호출
+        Time_manager.stat--;
+        ice = 4;
+        TowerCtrl.damage += ice;
+        GameObject[] icehero = GameObject.FindGameObjectsWithTag("TOWER");
+        Debug.Log(TowerCtrl.damage);
+        foreach (var ihero in icehero)
+        {
+            GameObject iceeff = (GameObject)Instantiate(IceUp,
+                                 ihero.transform.position, ihero.transform.rotation);
+            Destroy(iceeff, 2f);
+            yield return null;
+        }
+        Debug.Log(TowerCtrl.damage);
+    }
 
-        GameObject Lighiro = GameObject.FindWithTag("LigHiro");      //태그 검색
-        LigHiroAttatc += Lig[i];                                     //찾은 태그의 공격력(필드값) + 배열의 값
 
-        Debug.Log($"lig up = {LigHiroAttatc}");                       //공격력 증가되는지 확인
+    public void OnClickElec()
+    {
+        upAudio.PlayOneShot(elecUpSound, 1.0f);
+        StartCoroutine(coElec());
+    }
+    IEnumerator coElec()
+    {
+        Time_manager.stat--;
+        elec = Random.Range(3, 7);
+        TowerCtrl.damage += elec;
+        GameObject[] elechero = GameObject.FindGameObjectsWithTag("TOWER");
+        Debug.Log(TowerCtrl.damage);
+        foreach (var ehero in elechero)
+        {
+            GameObject eleceff = (GameObject)Instantiate(ElecUp,
+                                 ehero.transform.position, ehero.transform.rotation);
+            Destroy(eleceff, 2f);
+            yield return null;
+        }
+        Debug.Log(TowerCtrl.damage);
     }
 
 

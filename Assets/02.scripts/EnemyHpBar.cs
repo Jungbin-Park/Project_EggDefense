@@ -20,23 +20,22 @@ public class EnemyHpBar : MonoBehaviour
         rectHp = this.gameObject.GetComponent<RectTransform>();
     }
 
-    void Update()
-    {
-        
-    }
-
     private void LateUpdate()
     {
-        var screenPos = Camera.main.WorldToScreenPoint(targetTr.position + offset);
-
-        if(screenPos.z < 0.1)
+        if(targetTr != null)
         {
-            screenPos *= -1.0f;
-        }
+            var screenPos = Camera.main.WorldToScreenPoint(targetTr.position + offset);
 
-        var localPos = Vector2.zero;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(rectParent, screenPos,
-                                                                uiCamera, out localPos);
-        rectHp.localPosition = localPos;
+            if (screenPos.z < 0.1)
+            {
+                screenPos *= -1.0f;
+            }
+
+            var localPos = Vector2.zero;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(rectParent, screenPos,
+                                                                    uiCamera, out localPos);
+            rectHp.localPosition = localPos;
+        }
+        
     }
 }

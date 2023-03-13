@@ -7,50 +7,66 @@ using UnityEngine.UI;
 
 public class Time_manager : MonoBehaviour
 {
-    public float LimitTime = 120f;   //°ÔÀÓ½Ã°£
-    public TextMeshProUGUI text_timer;        
+    public static float LimitTime = 120f;   //ê²Œì„ì‹œê°„
+    public TextMeshProUGUI text_timer;        //ê²Œì„ ì‹œê°„ (40)ì´ˆ ì˜ˆì •
 
     public static int Round = 1;
     public TextMeshProUGUI text_Round;
 
+    public static int stat = 0;
+    public TextMeshProUGUI text_stat;
+
+    public static int bombPoint = 0;
+    public TextMeshProUGUI text_bomb;
+
     public static bool isGame = true;
 
-    void Start()
+    public static string isResult;
+
+    private void Update()
     {
-        if (isGame)
-        {
-            LimitTimer();
-        }        
+        LimitTimer();
     }
     void LimitTimer()
     {
-        while (true)
+        //íƒ€ì´ë¨¸ ê´€ë ¨
+        if (isGame)
         {
-            //Å¸ÀÌ¸Ó °ü·Ã
-            if (LimitTime >= 0f)                               //¸®¹Ô Å¸ÀÓÀÌ ¿µº¸´Ù Å¬¶§
+            if (LimitTime >= 0f)                               //ë¦¬ë°‹ íƒ€ì„ì´ ì˜ë³´ë‹¤ í´ë•Œ
             {
-                LimitTime -= Time.deltaTime;                   //¸®¹ÔÅ¸ÀÓ¿¡¼­ ÇöÀç½Ã°£À» »©ÁÖ°í
-                text_timer.text = "" + Mathf.Round(LimitTime); //°ÔÀÓ½Ã°£ Àº Á¤¼öÀÚ¸®¼ö±îÁöÀÇ ¸®¹ÌÆ®Å¸ÀÓ±îÁö  ³ëÃâ
-
-                if (SpawnMonster.MonsterCount == SpawnMonster.MaxMonsterNum && GameObject.FindGameObjectsWithTag("MONSTER") == null)
+                LimitTime -= Time.deltaTime;                   //ë¦¬ë°‹íƒ€ì„ì—ì„œ í˜„ì¬ì‹œê°„ì„ ë¹¼ì£¼ê³ 
+                text_timer.text = "" + Mathf.Round(LimitTime); //ê²Œì„ì‹œê°„ ì€ ì •ìˆ˜ìë¦¬ìˆ˜ê¹Œì§€ì˜ ë¦¬ë¯¸íŠ¸íƒ€ì„ê¹Œì§€  ë…¸ì¶œ
+                text_stat.text = "" + stat;
+                text_Round.text = "" + Round;
+                text_bomb.text = "" + bombPoint;
+                if (SpawnMonster.MonsterNum == SpawnMonster.MaxMonsterNum && GameObject.FindGameObjectWithTag("MONSTER") == null)
                 {
+                    //Debug.Log("Round Clear!");
                     LimitTime = 120f;
-                    if (Round != SpawnMonster.MaxRound)
-                        Round++;
-                    text_Round.text = "" + Round;
-                    SpawnMonster.MonsterCount = 0;
+                    text_timer.text = "" + Mathf.Round(LimitTime);
+                    Round++;
+                    stat++;
+                    SpawnMonster.MonsterNum = 0;
+                    SpawnMonster.i = 0;
+                    SpawnMonster.isSpawnMonster = true;
+                    SpawnMonster.isran = true;
+                    SpawnMonster.BossNum = 0;
+                    //Debug.Log("(TM)monstercount : " + SpawnMonster.MonsterCount);                    
                 }
-                else if (SpawnMonster.BossNum == SpawnMonster.MaxBMonsterNum && GameObject.FindGameObjectsWithTag("MONSTER") == null)
+                else if (SpawnMonster.BossNum == SpawnMonster.MaxBMonsterNum && GameObject.FindGameObjectWithTag("MONSTER") == null)
                 {
                     //Victory
+                    isResult = "VICTORY";
                     isGame = false;
                 }
             }
-            else if (LimitTime <= 0f && GameObject.FindGameObjectsWithTag("MONSTER") != null)
+            else if (LimitTime <= 0f && GameObject.FindGameObjectWithTag("MONSTER") != null)
             {
+                isResult = "GAMEOVER";
                 //GameOver
                 isGame = false;
             }
         }
+
     }
 }

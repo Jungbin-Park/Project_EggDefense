@@ -17,29 +17,25 @@ public class TowerCtrl : MonoBehaviour
     private Transform towerTr;
     private Transform target;
 
-    public GameObject fireEffect;
     public float attackDist = 30f;
     public float lineSize = 30f;
     public bool isGame = true;
-    public Object particle;
+
+    public static float damage = 1;
+
 
     RaycastHit hit;
+
     void Start()
     {
-        if (Time_manager.isGame)
-        {
-            towerTr = GetComponent<Transform>();
-            anim = GetComponent<Animator>();
-            fireEffect = Resources.Load<GameObject>("PlasmaExplosionEffect");
-        }            
+        towerTr = GetComponent<Transform>();
+        anim = GetComponent<Animator>();
+        StartCoroutine(coFire());
     }
     private void Update()
     {
-        if (Time_manager.isGame)
-        {
-            StartCoroutine(UpdateTarget());
-            StartCoroutine(stateAction());
-        }            
+        StartCoroutine(UpdateTarget());
+        StartCoroutine(stateAction());
     }
     // 가장 가까운 적 감지
     IEnumerator UpdateTarget()
@@ -74,7 +70,6 @@ public class TowerCtrl : MonoBehaviour
         {
             state = State.ATTACK;
             towerTr.LookAt(target);
-            StartCoroutine(coFire());
         }
         else
         {
@@ -86,14 +81,22 @@ public class TowerCtrl : MonoBehaviour
 
     IEnumerator coFire()
     {
-        yield return new WaitForSeconds(1.0f);
-        Debug.DrawRay(transform.position, transform.forward * lineSize, Color.green);
-        if (Physics.Raycast(transform.position, transform.forward, out hit, lineSize))
+        while (true)
         {
-            if (hit.collider.tag.Equals("MONSTER"))
-            {               
-                hit.transform.GetComponent<EnemyCtrl>().GetDamage();
-                ShowFireEffect(hit.point, hit.transform.rotation);
+            yield return new WaitForSeconds(0.3f);
+            if (state == State.ATTACK)
+            {
+                Vector3 pos = transform.position;
+                pos.y = pos.y + 4;
+                Debug.DrawRay(pos, transform.forward * lineSize, Color.green, 1f);
+                if (Physics.Raycast(pos, transform.forward, out hit, lineSize))
+                {
+
+                    if (hit.collider.tag.Equals("MONSTER"))
+                    {
+                        hit.transform.GetComponent<EnemyCtrl>().GetDamage(damage);
+                    }
+                }
             }
         }
     }
@@ -106,32 +109,25 @@ public class TowerCtrl : MonoBehaviour
                 anim.SetBool("isAttack", false);
                 break;
             case State.ATTACK:
-                Debug.Log("isAttack True!");
+                //Debug.Log("isAttack True!");
                 anim.SetBool("isAttack", true);
                 break;
         }
         yield return null;
     }
 
-    void ShowFireEffect(Vector3 pos, Quaternion rot)
-    {
-        GameObject fire = Instantiate<GameObject>(fireEffect, pos, rot, hit.transform);
-        Destroy(fire, 1.0f);
-    }
-
-
     private void OnDrawGizmos()
     {
-        if(state == State.IDLE)
+        if (state == State.IDLE)
         {
             Gizmos.color = Color.blue;
             Gizmos.DrawWireSphere(transform.position, attackDist);
         }
-        if(state == State.ATTACK)
+        if (state == State.ATTACK)
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, attackDist);
         }
-        
+
     }
 }
